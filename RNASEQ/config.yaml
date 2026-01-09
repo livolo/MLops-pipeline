@@ -1,0 +1,11 @@
+samples:
+  - SRR1551114
+
+paths:
+  raw: /media/kirti/HD/pipeline/data/raw
+  align: /media/kirti/HD/pipeline/result/align
+  counts: /media/kirti/HD/pipeline/result/counts
+
+reference:
+  gtf: /media/kirti/HD/pipeline/data/reference/gencode.v49.primary_assembly.annotation.gtf
+  star_index: /media/kirti/HD/pipeline/data/reference/star_index

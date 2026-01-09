@@ -1,0 +1,92 @@
+configfile: "config.yaml"
+
+SAMPLES = config["samples"]
+RAW = config["paths"]["raw"]
+ALIGN = config["paths"]["align"]
+COUNTS = config["paths"]["counts"]
+GTF = config["reference"]["gtf"]
+
+rule all:
+    input:
+        expand(
+            "/media/kirti/HD/pipeline/result/counts/{sample}.counts.txt",
+            sample=SAMPLES
+        )
+
+
+################################
+# STAR alignment
+################################
+rule star_align:
+    input:
+        r1=lambda wc: f"{RAW}/{wc.sample}_1.fastq",
+        r2=lambda wc: f"{RAW}/{wc.sample}_2.fastq",
+        index=config["reference"]["star_index"]
+    output:
+        bam=f"{ALIGN}/{{sample}}.sorted.bam"
+    threads: 8
+    conda :
+        "/media/kirti/HD/pipeline/envs/star.yaml"
+    shell:
+        """
+        mkdir -p {ALIGN}
+
+        STAR \
+          --genomeDir {input.index} \
+          --readFilesIn {input.r1} {input.r2} \
+          --runThreadN {threads} \
+          --outSAMtype BAM SortedByCoordinate \
+          --outFileNamePrefix {ALIGN}/{wildcards.sample}.
+
+        mv {ALIGN}/{wildcards.sample}.Aligned.sortedByCoord.out.bam {output.bam}
+        """
+
+################################
+# featureCounts
+################################
+rule gene_counts:
+    input:
+        bam=f"{ALIGN}/{{sample}}.sorted.bam",
+        gtf=GTF
+    output:
+        txt=f"{COUNTS}/{{sample}}.counts.txt"
+    threads: 4
+    conda: "../envs/featurecounts.yaml"
+    shell:
+        """
+        mkdir -p {COUNTS}
+
+        featureCounts \
+          -T {threads} \
+          -p \
+          -t exon \
+          -g gene_id \
+          -a {input.gtf} \
+          -o {output.txt} \
+          {input.bam}
+        """
+
+################################
+# Merge counts
+################################
+rule merge_counts:
+    input:
+        expand(f"{COUNTS}/{{sample}}.counts.txt", sample=SAMPLES)
+    output:
+        "/media/kirti/HD/pipeline/result/counts"
+    shell:
+        """
+        awk `
+        BEGIN {{OFS="\\t"}}
+        NR==1 {{
+            printf "GeneID";
+            for(i=1;i<=ARGC-1;i++) printf "\\t%s", ARGV[i];
+            print "";
+        }}
+        FNR>2 {{
+            printf $1;
+            for(i=7;i<=NF;i+=7) printf "\\t%s",$i;
+            print "";
+        }}' {input} > {output}
+        """
+

@@ -1,0 +1,11 @@
+prefix=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_
+exec_prefix=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_
+libdir=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_/lib
+includedir=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.41.3
+Cflags: -I${includedir}/uuid
+Libs.private:  -lpthread
+Libs: -L${libdir} -luuid

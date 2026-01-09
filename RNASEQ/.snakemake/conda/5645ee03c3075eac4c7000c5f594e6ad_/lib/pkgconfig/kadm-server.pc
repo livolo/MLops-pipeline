@@ -1,0 +1,11 @@
+prefix=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: kadm-server
+Description: Kerberos administration server library
+Version: 1.21.3
+Requires.private: kdb mit-krb5-gssapi
+Cflags: -I${includedir}
+Libs: -L${libdir} -lkadm5srv_mit

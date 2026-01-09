@@ -1,0 +1,10 @@
+prefix=/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+vendor=MIT
+
+Name: krb5-gssapi
+Description: Kerberos implementation of the GSSAPI
+Version: 1.21.3
+Requires: mit-krb5-gssapi
