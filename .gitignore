@@ -1,1 +1,24 @@
+# Conda / Python
+__pycache__/
+*.pyc
+.env
+.venv
+
+# DVC cache
+.dvc/cache/
+
+# Data & results (tracked by DVC, not Git)
+data/
+result/
+RNASEQ/
+
+# MLflow
 mlflow.db
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
+
