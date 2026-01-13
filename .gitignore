@@ -22,3 +22,10 @@ mlflow.db
 Thumbs.db
 .DS_Store
 
+# Snakemake (VERY IMPORTANT)
+.snakemake/
+RNASEQ/.snakemake/
+
+# Conda environments created by Snakemake
+**/conda/
+

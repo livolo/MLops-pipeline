@@ -1,5 +1,0 @@
-#!/media/kirti/HD/pipeline/RNASEQ/.snakemake/conda/5645ee03c3075eac4c7000c5f594e6ad_/bin/python3.10
-
-import pydoc
-if __name__ == '__main__':
-    pydoc.cli()
