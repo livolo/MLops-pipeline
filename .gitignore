@@ -1,31 +1,22 @@
-# Conda / Python
-__pycache__/
-*.pyc
-.env
-.venv
-
-# DVC cache
-.dvc/cache/
-
-# Data & results (tracked by DVC, not Git)
+# Data & results (DVC only)
 data/
-result/
 RNASEQ/
+result/
+
+# Snakemake
+.snakemake/
 
 # MLflow
 mlflow.db
 
-# Logs
-*.log
+# Conda runtime
+**/conda/
+**/site-packages/
+
+# Python
+__pycache__/
+*.pyc
 
 # OS
 Thumbs.db
 .DS_Store
-
-# Snakemake (VERY IMPORTANT)
-.snakemake/
-RNASEQ/.snakemake/
-
-# Conda environments created by Snakemake
-**/conda/
-
