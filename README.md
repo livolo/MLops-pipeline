@@ -36,23 +36,27 @@ pipeline/
 <br>
 4. We used DVC for large data this is called Data Version Control.
 <br>
-```bash
 
+
+```bash
 dvc add data/raw
 dvc add result/align
 dvc add result/counts
-
 ```
+
+
 <br>
 This means: FASTQ / BAM / counts are NOT stored in Git, Git only tracks .dvc pointer files, Actual data is stored in a DVC remote.
 <br>
 5. We configured a DVC remote this is called separating code from data
 <br>
+
+
 ```bash
-
 dvc remote add -d localstore /media/kirti/HD/dvc-store
-
 ```
+
+
 <br>
 This means our data lives in external storage & Git repo stays lightweight so we can reproduce the same results anytime.
 
