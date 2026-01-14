@@ -24,7 +24,8 @@ pipeline/
 2.Runs steps in correct order<br>
 3.Re-runs only what changed<br>
 <br>
-3. We use conda for reproducibility each tool (STAR, featureCounts, FastQC) is installed in isolated environments this is called software reproducibility<br>
+3. We use conda for reproducibility each tool (STAR, featureCounts, FastQC) is installed in isolated environments this is called software reproducibility
+<br>
 | Step           | Tool           | Purpose              |
 |----------------|----------------|----------------------|
 | QC             | FastQC         | Check read quality   |
