@@ -26,11 +26,13 @@ pipeline/
 <br>
 3. We use conda for reproducibility each tool (STAR, featureCounts, FastQC) is installed in isolated environments this is called software reproducibility
 <br>
-| Step           | Tool           | Purpose              |
-|----------------|----------------|----------------------|
-| QC             | FastQC         | Check read quality   |
-| Alignment      | STAR           | Map reads to genome  |
-| Quantification | featureCounts  | Gene-level counts    |
+
+| Step           | Tool          | Purpose             |
+| -------------- | ------------- | ------------------- |
+| QC             | FastQC        | Check read quality  |
+| Alignment      | STAR          | Map reads to genome |
+| Quantification | featureCounts | Gene-level counts   |
+
 <br>
 4. We used DVC for large data this is called Data Version Control.
 <br>
