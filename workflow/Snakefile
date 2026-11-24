@@ -1,0 +1,72 @@
+# RNA-seq alignment and gene counting
+# Run from the repository root:
+#   snakemake --cores 8 --use-conda
+
+configfile: "config/config.yaml"
+
+SAMPLES = config["samples"]
+RAW = config["paths"]["raw"]
+ALIGN = config["paths"]["align"]
+COUNTS = config["paths"]["counts"]
+GTF = config["reference"]["gtf"]
+STAR_INDEX = config["reference"]["star_index"]
+
+
+rule all:
+    input:
+        expand(f"{COUNTS}/{{sample}}.counts.txt", sample=SAMPLES)
+
+
+################################
+# STAR alignment
+################################
+rule star_align:
+    input:
+        r1=lambda wc: f"{RAW}/{wc.sample}_1.fastq",
+        r2=lambda wc: f"{RAW}/{wc.sample}_2.fastq",
+        index=STAR_INDEX
+    output:
+        bam=f"{ALIGN}/{{sample}}.sorted.bam"
+    threads: 8
+    conda:
+        "../envs/star.yaml"
+    shell:
+        """
+        mkdir -p {ALIGN}
+
+        STAR \
+          --genomeDir {input.index} \
+          --readFilesIn {input.r1} {input.r2} \
+          --runThreadN {threads} \
+          --outSAMtype BAM SortedByCoordinate \
+          --outFileNamePrefix {ALIGN}/{wildcards.sample}.
+
+        mv {ALIGN}/{wildcards.sample}.Aligned.sortedByCoord.out.bam {output.bam}
+        """
+
+
+################################
+# featureCounts
+################################
+rule gene_counts:
+    input:
+        bam=f"{ALIGN}/{{sample}}.sorted.bam",
+        gtf=GTF
+    output:
+        txt=f"{COUNTS}/{{sample}}.counts.txt"
+    threads: 4
+    conda:
+        "../envs/featurecounts.yaml"
+    shell:
+        """
+        mkdir -p {COUNTS}
+
+        featureCounts \
+          -T {threads} \
+          -p \
+          -t exon \
+          -g gene_id \
+          -a {input.gtf} \
+          -o {output.txt} \
+          {input.bam}
+        """

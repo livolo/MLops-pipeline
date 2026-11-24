@@ -1,0 +1,13 @@
+# Edit these before running. Paths are relative to the repository root.
+
+samples:
+  - SRR1551114          # NCBI SRA run; reads expected as data/raw/<sample>_1.fastq and _2.fastq
+
+paths:
+  raw: data/raw
+  align: results/align
+  counts: results/counts
+
+reference:
+  gtf: data/reference/gencode.v49.primary_assembly.annotation.gtf
+  star_index: data/reference/star_index
